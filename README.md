@@ -32,6 +32,13 @@ Instead of hiding orchestration behind a single black-box call, the system expos
 
 This repository is optimized for open-source readability and local reproducibility, not for running as a permanent hosted service.
 
+## At a glance
+
+- **Problem:** answer Next.js questions using the official documentation corpus, not generic web search
+- **What I built:** ingestion pipeline, hybrid retrieval, explicit LangGraph orchestration, evidence memory, semantic cache, source-linked citations, and a full-stack demo UI
+- **What is measurable:** cold vs warm benchmarked behavior, explicit evidence scores, structured logs, and test coverage
+- **What a reviewer can verify quickly:** local Docker demo, API contract, retrieval flow, citations, and reproducible benchmarks
+
 ## Product Preview
 
 ### Chat experience
