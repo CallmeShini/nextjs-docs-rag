@@ -1,0 +1,22 @@
+.DS_Store
+.pytest_cache/
+.venv/
+
+# Workspace-only files
+.agents/
+docs/
+ref_visual/
+skills-lock.json
+
+# Root-level local artifacts
+data/
+
+# API local artifacts
+api/.env
+api/.pytest_cache/
+api/data/eval/
+
+# Web local artifacts
+web/.env.local
+web/.next/
+web/node_modules/
