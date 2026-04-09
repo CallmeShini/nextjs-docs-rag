@@ -1,16 +1,21 @@
 # A-RAG Next.js
 
-Agentic RAG system for the official Next.js documentation.
+An open-source Agentic RAG system for the official Next.js documentation.
 
 Built by Gabriel R. ([CallmeShini](https://github.com/CallmeShini)).
 
-![A-RAG Next.js architecture](./Diagrama/A-rag.png)
+![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)
+![Status](https://img.shields.io/badge/status-open--source-111827)
+![Python](https://img.shields.io/badge/python-3.12-3776AB?logo=python&logoColor=white)
+![Next.js](https://img.shields.io/badge/next.js-16-000000?logo=nextdotjs&logoColor=white)
+![LangGraph](https://img.shields.io/badge/langgraph-explicit%20orchestration-0ea5e9)
+![Docker](https://img.shields.io/badge/docker-compose%20demo-2496ED?logo=docker&logoColor=white)
 
 ## Overview
 
 A-RAG Next.js is a portfolio-grade AI engineering project focused on a single domain: answering questions about Next.js using the official documentation corpus.
 
-The project is intentionally designed to make the full pipeline explicit:
+The project is intentionally explicit end to end:
 
 ```text
 ingestion -> chunking -> retrieval -> reranking -> evidence writing -> synthesis -> evaluation
@@ -19,34 +24,27 @@ ingestion -> chunking -> retrieval -> reranking -> evidence writing -> synthesis
 Instead of hiding orchestration behind a single black-box call, the system exposes an inspectable Agentic RAG loop with:
 
 - hybrid retrieval (`BM25 + vector`)
-- explicit evidence memory
 - planner-controlled iteration
+- explicit evidence memory
 - semantic cache before orchestration
-- citations tied back to the source files
+- source-grounded citations
 - measurable cold vs warm behavior
 
-This workspace is optimized for GitHub portfolio presentation and local reproducibility, not for running as a permanent hosted service.
+This repository is optimized for open-source readability and local reproducibility, not for running as a permanent hosted service.
 
-## Why This Project Exists
+## Product Preview
 
-The goal of the project is to demonstrate production-minded AI engineering decisions in a narrow and traceable setting:
+### Chat experience
 
-- explicit architecture instead of opaque chains
-- observable retrieval and synthesis behavior
-- local evaluation and benchmarking
-- source-grounded answers with citations
-- reproducible local demo via Docker
+![A-RAG Next.js home](./assets/home.png)
 
-The theme is Next.js because the documentation has a useful mix of:
+### Project documentation
 
-- exact API terms
-- file conventions
-- configuration-driven behavior
-- conceptual guides
+![A-RAG Next.js docs](./assets/docs.png)
 
-That makes it a good domain for hybrid retrieval and agentic evidence gathering.
+## Architecture
 
-## System Architecture
+![A-RAG Next.js architecture](./Diagrama/A-rag.png)
 
 The implementation follows the project diagram directly:
 
@@ -71,7 +69,26 @@ Core idea:
 - the chunk reader writes structured evidence back into graph state
 - the final synthesizer only runs after the system decides it has enough support
 
-## Key Engineering Decisions
+## Why this project matters
+
+The goal is to demonstrate production-minded AI engineering decisions in a narrow and traceable setting:
+
+- explicit architecture instead of opaque chains
+- observable retrieval and synthesis behavior
+- local evaluation and benchmarking
+- source-grounded answers with citations
+- reproducible full-stack demo via Docker
+
+Next.js is a strong retrieval domain because the docs mix:
+
+- exact API terms
+- file conventions
+- configuration-driven behavior
+- conceptual guides
+
+That makes it a useful testbed for hybrid retrieval and agentic evidence gathering.
+
+## Key engineering decisions
 
 ### 1. Narrow domain, explicit pipeline
 
@@ -106,7 +123,7 @@ Repeated questions should not pay the full orchestration cost. The semantic cach
 
 Embeddings and reranking run locally. The generation layer uses the OpenAI SDK interface with provider adapters, which keeps the retrieval side inexpensive while allowing the LLM endpoint to be swapped.
 
-## Performance Snapshot
+## Performance snapshot
 
 Local benchmark recorded on `2026-04-09`:
 
@@ -119,19 +136,19 @@ Observed warm-path speedup: `2054.06x`
 
 This benchmark is useful as a relative engineering result, not as a universal SLA. It shows the tradeoff between the full agentic retrieval path and the semantic-cache fast path.
 
-## Project Layout
+## Project layout
 
 This repository is organized as one product with two internal runtime modules:
 
 - [`api/`](./api/)  
-  Core application runtime. Includes ingestion, indexing, LangGraph orchestration, FastAPI, tests, and evaluation tooling.
+  Core runtime. Includes ingestion, indexing, LangGraph orchestration, FastAPI, tests, and evaluation tooling.
 
 - [`web/`](./web/)  
   User-facing web application. Includes the chat UI, evidence badges, citation cards, and `/docs` product page.
 
 The project identity is A-RAG Next.js. `api` and `web` are implementation modules, not separate products.
 
-## Run The Demo Locally
+## Run the demo locally
 
 The recommended way to run the full stack is Docker Compose.
 
@@ -151,7 +168,7 @@ The first startup is intentionally slower because it may:
 - build BM25 and ChromaDB artifacts
 - download local retrieval models
 
-## What Makes This Portfolio-Ready
+## Portfolio strengths
 
 - explicit architecture instead of hidden orchestration
 - reproducible local demo
@@ -160,9 +177,17 @@ The first startup is intentionally slower because it may:
 - structured logging and test coverage
 - clean, domain-specific problem framing
 
+## Current limitations
+
+- no authentication on `/ask`
+- no response streaming yet
+- no conversation persistence yet
+- optimized for Next.js documentation, not general web QA
+- cold-path latency is still materially higher than warm-path latency
+
 ## Author
 
 Gabriel R.  
 GitHub: [CallmeShini](https://github.com/CallmeShini)
 
-This project is intended to represent AI Engineer work with emphasis on retrieval systems, observability, traceability, and maintainable system design.
+This project is intended to represent AI Engineer work with emphasis on retrieval systems, observability, traceability, evaluation, and maintainable system design.
